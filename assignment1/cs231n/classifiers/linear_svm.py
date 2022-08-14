@@ -5,7 +5,8 @@ from past.builtins import xrange
 
 def svm_loss_naive(W, X, y, reg):
     """
-    Structured SVM loss function, naive implementation (with loops).
+    Structured SVM loss function, 
+    (with loops).
 
     Inputs have dimension D, there are C classes, and we operate on minibatches
     of N examples.
@@ -48,8 +49,8 @@ def svm_loss_naive(W, X, y, reg):
     loss += reg * np.sum(W * W)
 
     #############################################################################
-    # TODO:                                                                     #
-    # Compute the gradient of the loss function and store it dW.                #
+    # TODO:                                        #
+    # Compute the gradient of the loss function and store it dW.    #
     # Rather than first computing the loss and then computing the derivative,   #
     # it may be simpler to compute the derivative at the same time that the     #
     # loss is being computed. As a result you may need to modify some of the    #
@@ -57,31 +58,9 @@ def svm_loss_naive(W, X, y, reg):
     #############################################################################
     # *****START OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
     
-    '''
-    # verbose version:
-    # try exchanging the loop of k and j !
-    for i in range(num_train):
-        scores = X[i].dot(W)
-        for k in range(num_classes):
-            if k == y[i]:
-                for j in range(num_classes):
-                    if j == y[i]:
-                        continue
-                    margin = scores[j] - scores[y[i]] + 1
-                    if margin > 0:
-                        dW[:, k] -= X[i]*1.0
-            else:
-                margin = scores[k] - scores[y[i]] + 1
-                if margin > 0:
-                    dW[:, k] += X[i]*1.0
-                
-    dW = dW / num_train + 2*reg*W
-    '''
-    
     dW /= num_train
     dW += 2*reg*W
     
-    pass
 
     # *****END OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
     
@@ -130,28 +109,13 @@ def svm_loss_vectorized(W, X, y, reg):
     #############################################################################
     # *****START OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
     
-    X_effect = (margin > 0).astype('float')                       # 每个样本i在非y[i]的类上产生X[i]的梯度
-    X_effect[range(num_train), y] -= np.sum(X_effect, axis=1)   # 每个样本i在y[i]的类上产生sigma(margin gt 0)*X[i]（除y[i]的margin）的梯度
+    X_effect = (margin > 0).astype('float')                      
+    X_effect[range(num_train), y] -= np.sum(X_effect, axis=1)   
     
     dW = X.T.dot(X_effect)
     dW /= num_train 
     dW += 2*reg*W
-    
-    
-    ''' verbose version: 
-    margin_chara = (margin > 0).astype('float')
-    margin_chara_sum = np.sum(margin_chara, axis=1).astype('float')
-    
-    for i in range(num_train):
-        dW += (margin_chara[i][:, np.newaxis]*X[i]).T  # broadcast
-        # dW[:, y[i]] -= margin_chara[i, y[i]]*X[i]  # margin_chara[i, y[i]] == 0 is always 
-        dW[:, y[i]] -= margin_chara_sum[i]*X[i]
-    
-    dW /= num_train
-    dW += 2*reg*W
-    '''
-    
-    pass
+
 
     # *****END OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
 

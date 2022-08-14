@@ -61,7 +61,6 @@ class LinearClassifier(object):
             X_batch = X[batch_idx]
             y_batch = y[batch_idx]
             
-            pass
 
             # *****END OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
 
@@ -74,12 +73,9 @@ class LinearClassifier(object):
             # TODO:                                                                 #
             # Update the weights using the gradient and the learning rate.          #
             #########################################################################
-            # *****START OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
-            
+            # *****START OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****          
             self.W -= learning_rate*grad
             
-            pass
-
             # *****END OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
 
             if verbose and it % 100 == 0:
@@ -110,8 +106,6 @@ class LinearClassifier(object):
         
         # be careful about self.W.shape = (dim, num_classes) !!
         y_pred = np.argmax(X.dot(self.W), axis=1)
-        
-        pass
 
         # *****END OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
         return y_pred
